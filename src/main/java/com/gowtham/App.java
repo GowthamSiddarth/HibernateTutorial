@@ -1,13 +1,22 @@
 package com.gowtham;
 
-/**
- * Hello world!
- *
- */
+import org.hibernate.Session;
+
 public class App 
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+
+        EmployeeEntity employeeEntity = new EmployeeEntity();
+        employeeEntity.setEmail("gothsiddu@gmail.com");
+        employeeEntity.setFirstName("demo");
+        employeeEntity.setLastName("user");
+
+        session.save(employeeEntity);
+
+        session.getTransaction().commit();
+        HibernateUtil.shutDown();
     }
 }
