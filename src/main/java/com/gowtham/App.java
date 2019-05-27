@@ -11,9 +11,14 @@ public class App {
 
         //session.beginTransaction();
         //insertEmployeeEntity(session);
-        checkGetCurrentSession(session);
+        //checkGetCurrentSession(session);
+        checkStatelessSession();
 
         HibernateUtil.shutDown();
+    }
+
+    static void checkStatelessSession() {
+        System.out.println(HibernateUtil.getSessionFactory().openStatelessSession());
     }
 
     static void checkGetCurrentSession(Session session) {
