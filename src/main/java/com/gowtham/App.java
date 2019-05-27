@@ -1,16 +1,23 @@
 package com.gowtham;
 
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.hibernate.exception.ConstraintViolationException;
 
 public class App {
     public static void main(String[] args) {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        session.beginTransaction();
+        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
 
-        insertEmployeeEntity(session);
+        //session.beginTransaction();
+        //insertEmployeeEntity(session);
+        checkGetCurrentSession(session);
 
         HibernateUtil.shutDown();
+    }
+
+    static void checkGetCurrentSession(Session session) {
+        System.out.println("Current Session Validation: " + (HibernateUtil.getSessionFactory().getCurrentSession() == session));
     }
 
     static void insertEmployeeEntity(Session session) {
