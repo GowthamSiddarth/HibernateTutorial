@@ -1,7 +1,9 @@
 package com.gowtham;
 
+import org.hibernate.ObjectNotFoundException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.exception.ConstraintViolationException;
 
 public class App {
@@ -12,9 +14,26 @@ public class App {
         //session.beginTransaction();
         //insertEmployeeEntity(session);
         //checkGetCurrentSession(session);
-        checkStatelessSession();
+        //checkStatelessSession();
+        getVsLoad(session);
 
         HibernateUtil.shutDown();
+    }
+
+    static void getVsLoad(Session session) {
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            EmployeeEntity employeeEntity1 = (EmployeeEntity) session.get(EmployeeEntity.class, new Integer(5));
+            System.out.println(employeeEntity1);
+
+            EmployeeEntity employeeEntity2 = (EmployeeEntity) session.load(EmployeeEntity.class, new Integer(7));
+            System.out.println(employeeEntity2);
+        } catch (ObjectNotFoundException onfe) {
+            System.out.println(onfe.getMessage());
+        } finally {
+            transaction.commit();
+        }
     }
 
     static void checkStatelessSession() {
